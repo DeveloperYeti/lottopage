@@ -26,8 +26,8 @@
     border: none;
 }
 .main-nav a:hover, .user-nav a:hover, .btn-link:hover {
-    color: #29b6f6;
-    background: #172158;
+    color: #62e4f4;
+    background: #1ec3db;
 }
 
 .user-name {
