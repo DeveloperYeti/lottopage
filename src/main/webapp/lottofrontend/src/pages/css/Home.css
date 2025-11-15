@@ -1,0 +1,46 @@
+.home-wrapper {
+    margin: 0;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.hero-image {
+    width: 160px;
+    margin: 16px 0;
+}
+
+.quick-menu {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 22px;
+    justify-content: center;
+    margin: 22px 0;
+}
+.qm-btn {
+    background: #29b6f6;
+    color: #fff;
+    padding: 0.7em 1.8em;
+    border-radius: 6px;
+    font-size: 1.09em;
+    text-decoration: none;
+    box-shadow: 0 3px 8px #b2e3fa66;
+    transition: background 0.2s;
+}
+.qm-btn:hover {
+    background: #0076ff;
+}
+
+/* 반응형 */
+@media (max-width: 600px) {
+    .quick-menu {
+        gap: 13px;
+    }
+    .hero-image {
+        width: 100px;
+    }
+    .card {
+        font-size: 0.93em;
+    }
+}

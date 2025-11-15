@@ -1,0 +1,30 @@
+.login {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 38px 0;
+}
+.login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 280px;
+}
+input {
+    padding: 9px 12px;
+    font-size: 1em;
+    border-radius: 6px;
+    border: 1px solid #bcd0ee;
+}
+.login-btn {
+    background: #297def;
+    color: #fff;
+    padding: 0.7em 1.5em;
+    border: none;
+    border-radius: 6px;
+    font-size: 1em;
+    cursor: pointer;
+}
+.login-btn:hover {
+    background: #164cbc;
+}
