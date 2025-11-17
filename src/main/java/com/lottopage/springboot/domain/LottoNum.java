@@ -9,21 +9,28 @@ public class LottoNum {
     @Id
     private String id;
     private int drawNumber;
-    private List<Integer> numbers;
+    private List<List<Integer>> tickets;
+    private int amount;
+    private String userId; // 구매자 정보(선택)
 
-    public LottoNum() {
-    }
+    public LottoNum() { }
 
-    public LottoNum(int drawNumber, List<Integer> numbers) {
+    // 아래와 같이 생성자 추가 필요!
+    public LottoNum(int drawNumber, List<List<Integer>> tickets, int amount) {
         this.drawNumber = drawNumber;
-        this.numbers = numbers;
+        this.tickets = tickets;
+        this.amount = amount;
     }
 
-    // getters and setters
-    public String getId() { return id; }
-    public void setId(String id) { this.id = id; }
+    // getter/setter 추가!
     public int getDrawNumber() { return drawNumber; }
     public void setDrawNumber(int drawNumber) { this.drawNumber = drawNumber; }
-    public List<Integer> getNumbers() { return numbers; }
-    public void setNumbers(List<Integer> numbers) { this.numbers = numbers; }
+    public List<List<Integer>> getTickets() { return tickets; }
+    public void setTickets(List<List<Integer>> tickets) { this.tickets = tickets; }
+    public int getAmount() { return amount; }
+    public void setAmount(int amount) { this.amount = amount; }
+    public String getUserId() { return userId; }
+    public void setUserId(String userId) { this.userId = userId; }
+    public String getId() { return id; }
+    public void setId(String id) { this.id = id; }
 }
