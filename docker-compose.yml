@@ -1,0 +1,18 @@
+version: "3"
+services:
+  react:
+    build:
+      context: ./src/main/webapp/lottofrontend
+      args:
+        - REACT_APP_API_BASE_URL=http://springboot:8080
+    container_name: lotto_front
+    ports:
+      - "3000:80"
+
+  springboot:
+    build: ./src/main/java/com/lottopage/springboot
+    container_name: lotto_back
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATA_MONGODB_URI: mongodb+srv://hoseok9823_db_user:asd4162557@weblotto.aiod4eg.mongodb.net/weblotto?retryWrites=true&w=majority

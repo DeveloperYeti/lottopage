@@ -2,7 +2,9 @@ package com.lottopage.springboot.service;
 
 import org.springframework.stereotype.Service;
 import java.util.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
+@CrossOrigin(origins = "http://localhost:3000")
 @Service
 public class LottoService {
     // 1~45 중복 없는 6개 번호 생성

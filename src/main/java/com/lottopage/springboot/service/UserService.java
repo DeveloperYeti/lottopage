@@ -4,7 +4,9 @@ import com.lottopage.springboot.domain.User;
 import com.lottopage.springboot.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
+@CrossOrigin(origins = "http://localhost:3000")
 @Service
 public class UserService {
     @Autowired

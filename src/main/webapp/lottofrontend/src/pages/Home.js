@@ -1,4 +1,4 @@
-import './css/Home.css';
+import '../pages/css/Home.css';
 
 function Home() {
     return (
@@ -13,7 +13,6 @@ function Home() {
                 <a href="/buy" className="qm-btn">구매하기</a>
                 <a href="/result" className="qm-btn">당첨확인</a>
                 <a href="/history" className="qm-btn">구매내역</a>
-                {/* 필요시 추가 */}
             </div>
         </div>
     );

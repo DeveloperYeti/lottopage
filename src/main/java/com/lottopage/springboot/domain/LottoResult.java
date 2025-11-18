@@ -2,9 +2,11 @@ package com.lottopage.springboot.domain;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.web.bind.annotation.CrossOrigin;
+
 import java.util.List;
 import java.util.Map;
-
+@CrossOrigin(origins = "http://localhost:3000")
 @Document(collection = "lottoResult")
 public class LottoResult {
     @Id

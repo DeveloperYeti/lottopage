@@ -1,16 +1,9 @@
 import React, { useState } from 'react';
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import api from '../api/axios';
 import '../pages/css/Login.css';
 
 function Login({ onLogin }) {
-    // 테스트 계정 정보
-    const TEST_USER = {
-        username: 'test',
-        password: 'test12',
-        name: '테스트유저'
-    };
-
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [loginMsg, setLoginMsg] = useState("");
@@ -23,30 +16,28 @@ function Login({ onLogin }) {
             setLoginMsg("아이디와 비밀번호를 입력하세요");
             return;
         }
-        // 테스트 계정 케이스 (프론트에서 즉시 성공)
-        if (username === TEST_USER.username && password === TEST_USER.password) {
+        // 테스트 계정 즉시 성공 (원하는 경우만 사용)
+        if (username === "test" && password === "test12") {
             setLoginMsg("테스트 계정으로 로그인 성공!");
             if (onLogin) onLogin(username, false);
             setTimeout(() => navigate("/"), 700);
             return;
         }
-        // 그 외는 백엔드에 실제 인증 요청
         try {
-            const res = await axios.post('http://localhost:8080/api/users/login', { username, password });
+            const res = await api.post('/api/users/login', { username, password });
             if (res.data.ok) {
                 setLoginMsg("로그인 성공!");
                 if (onLogin) onLogin(username, res.data.isAdmin);
                 setTimeout(() => navigate("/"), 600);
-            } else if (res.data.error) {
-                setLoginMsg(res.data.error);
             } else {
-                setLoginMsg("알 수 없는 에러");
+                setLoginMsg(res.data.error || "알 수 없는 에러");
             }
         } catch (err) {
             setLoginMsg("서버 오류 또는 네트워크 문제");
         }
     };
 
+    // 회원가입 페이지 이동 함수
     const gotoSignup = () => {
         navigate("/signup");
     };
@@ -69,6 +60,7 @@ function Login({ onLogin }) {
                 />
                 <button type="submit" className="login-btn">로그인</button>
             </form>
+            {/* 회원가입 이동 버튼 복구 */}
             <button
                 className="signup-goto-btn"
                 style={{
@@ -85,9 +77,11 @@ function Login({ onLogin }) {
             >
                 회원가입 하러가기
             </button>
+            {/* 테스트 계정 안내 복구 */}
             <div className="status-msg" style={{ marginTop: 10, color: "#297def" }}>
                 테스트 계정: <b>test / test12</b>
             </div>
+            {/* 로그인 결과 메세지 표시 */}
             {loginMsg && <div className="status-msg">{loginMsg}</div>}
         </div>
     );

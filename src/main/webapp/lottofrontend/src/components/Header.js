@@ -15,19 +15,15 @@ function Header({ isLoggedIn, userName, onLogout }) {
                     <>
                         <span className="user-name">{userName}님</span>
                         <Link to="/mypage" className="btn-link">마이페이지</Link>
-                        <button
-                            className="btn-link logout-btn"
-                            onClick={onLogout}
-                        >로그아웃</button>
+                        <button className="btn-link logout-btn" onClick={onLogout}>
+                            로그아웃
+                        </button>
                     </>
                 ) : (
-                    <>
-                        <Link to="/login" className="btn-link">로그인</Link>
-                    </>
+                    <Link to="/login" className="btn-link">로그인</Link>
                 )}
             </nav>
         </header>
     );
 }
-
 export default Header;
