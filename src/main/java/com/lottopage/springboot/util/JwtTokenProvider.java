@@ -2,23 +2,29 @@ package com.lottopage.springboot.util;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.security.Keys;
 import org.springframework.stereotype.Component;
 
+import javax.crypto.SecretKey;
 import java.util.Date;
 
 @Component
 public class JwtTokenProvider {
-    private final String SECRET_KEY = "your-secret-key"; // 실제 환경에서는 환경변수 등에서 관리
+    private static final String SECRET = "mySuperSecretKey1234567890!@#abcdef0123456789"; // 32+ chars
+
+    private SecretKey getSigningKey() {
+        return Keys.hmacShaKeyFor(SECRET.getBytes());
+    }
 
     public String createToken(String username) {
-        Date now = new Date();
-        // 토큰 유효시간 예시: 1시간 (1000*60*60)
-        Date expiry = new Date(now.getTime() + 3600000L);
+        long now = System.currentTimeMillis();
+        long expireMs = 1000 * 60 * 60L;
+
         return Jwts.builder()
                 .setSubject(username)
-                .setIssuedAt(now)
-                .setExpiration(expiry)
-                .signWith(SignatureAlgorithm.HS256, SECRET_KEY)
+                .setIssuedAt(new Date(now))
+                .setExpiration(new Date(now + expireMs))
+                .signWith(getSigningKey(), SignatureAlgorithm.HS256)
                 .compact();
     }
 }

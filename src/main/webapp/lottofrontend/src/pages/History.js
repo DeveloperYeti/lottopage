@@ -13,8 +13,8 @@ function History({ isLoggedIn, userName }) {
             setHistory([]);
             return;
         }
-        if (!drawNumber) {
-            setMsg("회차를 입력하세요.");
+        if (!drawNumber || Number(drawNumber) < 1) {
+            setMsg("회차 번호는 1 이상의 값만 입력하세요.");
             setHistory([]);
             return;
         }

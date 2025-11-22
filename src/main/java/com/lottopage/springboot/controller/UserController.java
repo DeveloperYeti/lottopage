@@ -14,7 +14,6 @@ public class UserController {
     private final UserService userService;
     private final JwtTokenProvider jwtTokenProvider;
 
-    // 생성자 주입
     public UserController(UserService userService, JwtTokenProvider jwtTokenProvider) {
         this.userService = userService;
         this.jwtTokenProvider = jwtTokenProvider;
@@ -27,7 +26,7 @@ public class UserController {
         String name = body.get("name");
         String username = body.get("username");
         String password = body.get("password");
-        String passwordCheck = body.get("passwordCheck"); // 비밀번호 확인
+        String passwordCheck = body.get("passwordCheck");
 
         User newUser = new User(email, name, username, password);
         String result = userService.signup(newUser, passwordCheck);
@@ -56,11 +55,10 @@ public class UserController {
         if (user == null) return Map.of("error", "아이디 또는 비밀번호 오류");
 
         String token = jwtTokenProvider.createToken(user.getUsername());
-        // 토큰, 사용자명, 관리자여부 등을 전송(필요시 추가 정보 포함)
         return Map.of(
                 "token", token,
                 "username", user.getUsername(),
-                "isAdmin", user.isAdmin() // User 객체에 해당 메소드, 필드가 있다고 가정
+                "isAdmin", user.isAdmin()
         );
     }
 }
