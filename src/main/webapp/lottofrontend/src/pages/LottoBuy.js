@@ -2,17 +2,20 @@ import React, { useState } from 'react';
 import api from '../api/axios';
 import '../pages/css/LottoBuy.css';
 
-function LottoBuy() {
+function LottoBuy({ isLoggedIn, userName }) {
     const [amount, setAmount] = useState(1000);
     const [msg, setMsg] = useState("");
     const [tickets, setTickets] = useState([]);
 
     const validateAmount = (value) => {
-        // 1000원 단위가 아니거나 음수일 경우 false
         return value > 0 && value % 1000 === 0;
     };
 
     const handleBuy = async () => {
+        if (!isLoggedIn) {
+            setMsg("로그인 후 이용 가능합니다.");
+            return;
+        }
         if (!validateAmount(amount)) {
             setMsg("1000원 단위로 다시 입력해주세요.");
             setTickets([]);
@@ -21,7 +24,7 @@ function LottoBuy() {
         try {
             const res = await api.post("/api/lottonums/buy", {
                 loggedIn: true,
-                userId: "demo",
+                userId: userName,
                 amount: amount
             });
             if (res.data.error) setMsg(res.data.error);
@@ -37,18 +40,23 @@ function LottoBuy() {
     return (
         <div className="buy">
             <h2>로또 구매</h2>
-            <label>
-                구매 금액(1,000원 단위):
-                <input
-                    type="number"
-                    value={amount}
-                    min={1000}
-                    step={1000}
-                    onChange={e => setAmount(Number(e.target.value))}
-                />
-            </label>
-            <button className="buy-btn" onClick={handleBuy}>구매하기</button>
-            {/* 안내 메시지 표시 */}
+            {!isLoggedIn ? (
+                <div style={{ color: '#cf1c3f', margin: '14px 0' }}>로그인 후 이용 가능합니다.</div>
+            ) : (
+                <>
+                    <label>
+                        구매 금액(1,000원 단위):
+                        <input
+                            type="number"
+                            value={amount}
+                            min={1000}
+                            step={1000}
+                            onChange={e => setAmount(Number(e.target.value))}
+                        />
+                    </label>
+                    <button className="buy-btn" onClick={handleBuy}>구매하기</button>
+                </>
+            )}
             {msg && <div className="buy-tips">{msg}</div>}
             {tickets.length > 0 && (
                 <div>

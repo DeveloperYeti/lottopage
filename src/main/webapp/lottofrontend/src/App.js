@@ -40,10 +40,8 @@ function App() {
                     <Route path="/signup" element={<Signup />} />
                     <Route path="/buy" element={<LottoBuy />} />
                     <Route path="/result" element={<Result />} />
-                    <Route path="/history" element={<History />} />
-                    {isLoggedIn && isAdmin && (
-                        <Route path="/admin" element={<Admin />} />
-                    )}
+                    <Route path="/history" element={<History isLoggedIn={isLoggedIn} userName={userName} />} />
+
                     <Route path="*" element={<NotFound />} />
                 </Routes>
             </main>

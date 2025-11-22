@@ -25,9 +25,15 @@ function Login({ onLogin }) {
         }
         try {
             const res = await api.post('/api/users/login', { username, password });
-            if (res.data.ok) {
+            // 서버는 { token, username, isAdmin } 혹은 { error }를 반환한다고 가정
+            if (res.data.token) {
+                // JWT 토큰, 사용자명, 관리자 여부를 localStorage에 저장
+                localStorage.setItem('token', res.data.token);
+                localStorage.setItem('username', res.data.username);
+                localStorage.setItem('isAdmin', res.data.isAdmin);
+
                 setLoginMsg("로그인 성공!");
-                if (onLogin) onLogin(username, res.data.isAdmin);
+                if (onLogin) onLogin(res.data.username, res.data.isAdmin);
                 setTimeout(() => navigate("/"), 600);
             } else {
                 setLoginMsg(res.data.error || "알 수 없는 에러");
@@ -60,7 +66,6 @@ function Login({ onLogin }) {
                 />
                 <button type="submit" className="login-btn">로그인</button>
             </form>
-            {/* 회원가입 이동 버튼 복구 */}
             <button
                 className="signup-goto-btn"
                 style={{
@@ -77,11 +82,9 @@ function Login({ onLogin }) {
             >
                 회원가입 하러가기
             </button>
-            {/* 테스트 계정 안내 복구 */}
             <div className="status-msg" style={{ marginTop: 10, color: "#297def" }}>
                 테스트 계정: <b>test / test12</b>
             </div>
-            {/* 로그인 결과 메세지 표시 */}
             {loginMsg && <div className="status-msg">{loginMsg}</div>}
         </div>
     );

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import api from '../api/axios';
 import '../pages/css/Signup.css';
 
@@ -12,6 +13,7 @@ function Signup() {
     const [emailStatus, setEmailStatus] = useState("");
     const [usernameStatus, setUsernameStatus] = useState("");
     const [pwCheckStatus, setPwCheckStatus] = useState("");
+    const navigate = useNavigate();
 
     const isFormValid = (
         email && name && username && password && passwordCheck &&
@@ -51,7 +53,12 @@ function Signup() {
         if (!isFormValid) return;
         try {
             const res = await api.post('/api/users/signup', { email, name, username, password, passwordCheck });
-            setSignupMsg(res.data.error ? res.data.error : "가입 성공! 로그인 해주세요.");
+            if (res.data.error) {
+                setSignupMsg(res.data.error);
+            } else {
+                alert("가입에 성공했습니다!");
+                navigate("/");
+            }
         } catch {
             setSignupMsg("네트워크 오류");
         }
@@ -62,29 +69,68 @@ function Signup() {
             <h2>회원가입</h2>
             <form className="signup-form" onSubmit={handleSignup}>
                 <div className="input-group">
-                    <input type="email" placeholder="이메일" value={email}
-                           onChange={e => { setEmail(e.target.value); setEmailStatus(""); }}
-                           className="input-wide" />
-                    <button type="button" className="check-btn"
-                            onClick={() => checkDuplicate("email", email)}>중복확인</button>
+                    <input
+                        type="email"
+                        placeholder="이메일"
+                        value={email}
+                        onChange={e => { setEmail(e.target.value); setEmailStatus(""); }}
+                        className="input-wide"
+                    />
+                    <button
+                        type="button"
+                        className="check-btn"
+                        onClick={() => checkDuplicate("email", email)}
+                    >
+                        중복확인
+                    </button>
                 </div>
                 {emailStatus && <div className={emailStatus.startsWith("사용") ? "ok-msg" : "error-msg"}>{emailStatus}</div>}
-                <input type="text" placeholder="이름" value={name}
-                       onChange={e => setName(e.target.value)} className="input-wide" />
+                <input
+                    type="text"
+                    placeholder="이름"
+                    value={name}
+                    onChange={e => setName(e.target.value)}
+                    className="input-wide"
+                />
                 <div className="input-group">
-                    <input type="text" placeholder="아이디" value={username}
-                           onChange={e => { setUsername(e.target.value); setUsernameStatus(""); }}
-                           className="input-wide" />
-                    <button type="button" className="check-btn"
-                            onClick={() => checkDuplicate("username", username)}>중복확인</button>
+                    <input
+                        type="text"
+                        placeholder="아이디"
+                        value={username}
+                        onChange={e => { setUsername(e.target.value); setUsernameStatus(""); }}
+                        className="input-wide"
+                    />
+                    <button
+                        type="button"
+                        className="check-btn"
+                        onClick={() => checkDuplicate("username", username)}
+                    >
+                        중복확인
+                    </button>
                 </div>
                 {usernameStatus && <div className={usernameStatus.startsWith("사용") ? "ok-msg" : "error-msg"}>{usernameStatus}</div>}
-                <input type="password" placeholder="비밀번호(20자 이하)" value={password}
-                       onChange={e => setPassword(e.target.value)} className="input-wide" />
+                <input
+                    type="password"
+                    placeholder="비밀번호(20자 이하)"
+                    value={password}
+                    onChange={e => setPassword(e.target.value)}
+                    className="input-wide"
+                />
                 <div className="input-group">
-                    <input type="password" placeholder="비밀번호 확인" value={passwordCheck}
-                           onChange={e => setPasswordCheck(e.target.value)} className="input-wide" />
-                    <button type="button" className="check-btn" onClick={checkPasswordMatch}>확인</button>
+                    <input
+                        type="password"
+                        placeholder="비밀번호 확인"
+                        value={passwordCheck}
+                        onChange={e => setPasswordCheck(e.target.value)}
+                        className="input-wide"
+                    />
+                    <button
+                        type="button"
+                        className="check-btn"
+                        onClick={checkPasswordMatch}
+                    >
+                        확인
+                    </button>
                 </div>
                 {pwCheckStatus && <div className={pwCheckStatus === "비밀번호 일치!" ? "ok-msg" : "error-msg"}>{pwCheckStatus}</div>}
                 <button type="submit" className="signup-btn" disabled={!isFormValid}>가입하기</button>
@@ -93,4 +139,5 @@ function Signup() {
         </div>
     );
 }
+
 export default Signup;

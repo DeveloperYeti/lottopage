@@ -2,17 +2,23 @@ package com.lottopage.springboot.controller;
 
 import com.lottopage.springboot.domain.User;
 import com.lottopage.springboot.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.lottopage.springboot.util.JwtTokenProvider;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.Map;
+
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/api/users")
 public class UserController {
 
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
+    private final JwtTokenProvider jwtTokenProvider;
+
+    // 생성자 주입
+    public UserController(UserService userService, JwtTokenProvider jwtTokenProvider) {
+        this.userService = userService;
+        this.jwtTokenProvider = jwtTokenProvider;
+    }
 
     // 회원가입
     @PostMapping("/signup")
@@ -43,11 +49,18 @@ public class UserController {
         return Map.of("error", "잘못된 타입");
     }
 
-    // 로그인
+    // 로그인 (JWT 토큰 발급)
     @PostMapping("/login")
     public Object login(@RequestBody Map<String, String> body) {
         User user = userService.login(body.get("username"), body.get("password"));
         if (user == null) return Map.of("error", "아이디 또는 비밀번호 오류");
-        return Map.of("ok", true);
+
+        String token = jwtTokenProvider.createToken(user.getUsername());
+        // 토큰, 사용자명, 관리자여부 등을 전송(필요시 추가 정보 포함)
+        return Map.of(
+                "token", token,
+                "username", user.getUsername(),
+                "isAdmin", user.isAdmin() // User 객체에 해당 메소드, 필드가 있다고 가정
+        );
     }
 }
