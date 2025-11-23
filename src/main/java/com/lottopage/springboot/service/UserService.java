@@ -2,6 +2,8 @@ package com.lottopage.springboot.service;
 
 import com.lottopage.springboot.domain.User;
 import com.lottopage.springboot.repository.UserRepository;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -38,4 +40,31 @@ public class UserService {
         if (user != null && user.getPassword().equals(password)) return user;
         return null;
     }
+    @Setter
+    @Getter
+    private UserRepository UserRepository;
+
+    // 비밀번호 암호화 사용하는 경우
+    // private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
+    // 사용자의 비밀번호가 맞는지 확인
+    public boolean verifyPassword(String username, String password) {
+        User user = userRepository.findByUsername(username);
+        if (user == null) return false;
+        // 평문 비교 (실서비스에서는 passwordEncoder.matches 사용)
+        return user.getPassword().equals(password);
+        // 암호화 사용한다면: return passwordEncoder.matches(password, user.getPassword());
+    }
+
+    // 비밀번호 변경
+    public boolean changePassword(String username, String newPassword) {
+        User user = userRepository.findByUsername(username);
+        if (user == null) return false;
+        user.setPassword(newPassword);
+        // 암호화 사용: user.setPassword(passwordEncoder.encode(newPassword));
+        userRepository.save(user);
+        return true;
+    }
+
 }
+

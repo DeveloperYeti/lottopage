@@ -61,4 +61,33 @@ public class UserController {
                 "isAdmin", user.isAdmin()
         );
     }
+    @PostMapping("/verify-password")
+    public Map<String, Object> verifyPassword(@RequestBody Map<String, String> body) {
+        String username = body.get("username");
+        String password = body.get("password");
+        // 실제 UserService에서 비밀번호 검사 로직 필요
+        boolean match = userService.verifyPassword(username, password);
+        if (match) {
+            return Map.of("ok", true);
+        } else {
+            return Map.of("ok", false, "error", "비밀번호 불일치");
+        }
+    }
+
+    @PostMapping("/change-password")
+    public Map<String, Object> changePassword(@RequestBody Map<String, String> body) {
+        String username = body.get("username");
+        String oldPassword = body.get("oldPassword");
+        String newPassword = body.get("newPassword");
+        boolean match = userService.verifyPassword(username, oldPassword);
+        if (!match) return Map.of("ok", false, "error", "기존 비밀번호 불일치");
+        // 실제 변경 로직 넣기
+        boolean changed = userService.changePassword(username, newPassword);
+        if (changed) {
+            return Map.of("ok", true);
+        } else {
+            return Map.of("ok", false, "error", "비밀번호 변경 실패");
+        }
+    }
+
 }
