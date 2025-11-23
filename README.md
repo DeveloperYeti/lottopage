@@ -69,6 +69,47 @@ project.
 2025 11 22 페이지 Redirect 시 로그아웃 되는 현상. jwt 토큰으로 받아서 로그아웃이 안되게 수정
 2025 11 23 마이페이지 및 전체적인 레이아웃 및 css 수정 . 추가로 lottodraw 테이블 생성 및 백앤드와 연결하여 당첨내역 조회 기능 구현
 
+페이지 레이아웃
+
+메인 페이지
+
+<img width="2542" height="1355" alt="image" src="https://github.com/user-attachments/assets/66ad65c2-a51d-49f8-b394-88d216f69f8a" />
+
+로그인 페이지
+<img width="2559" height="1334" alt="image" src="https://github.com/user-attachments/assets/136cc396-719d-4a40-8346-52b7345e8afe" />
+
+회원 가입 페이지
+
+<img width="2548" height="1337" alt="image" src="https://github.com/user-attachments/assets/469f5707-73ef-4ce4-9fe4-42a81019486c" />
+
+구매 페이지 구매는 회차별로 구매
+
+1000원 단위 입력
+<img width="2550" height="1323" alt="image" src="https://github.com/user-attachments/assets/292495c2-4d7b-430f-affe-edf6238f09c8" />
+
+당첨 회차 당첨 번호 확인 페이지
+
+<img width="2549" height="1326" alt="image" src="https://github.com/user-attachments/assets/797a7389-6dda-4596-9ff4-f21bd084b4cc" />
+
+구매내역 페이지
+
+당첨 번호와 내가 구매를 대조하여 당첨금액 및 
+당첨 번호 - 몇등인지 표시
+<img width="2555" height="1332" alt="image" src="https://github.com/user-attachments/assets/15361303-82ba-42e7-91d2-bace1c902283" />
+
+마이페이지
+
+비밀변호 변경 가능.
+<img width="2552" height="1325" alt="image" src="https://github.com/user-attachments/assets/f66c38d3-3ce4-4093-b33b-5a8aae78347e" />
+
+
+
+
+
+
+
+
+
 
 
 
