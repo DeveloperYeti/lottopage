@@ -1,0 +1,70 @@
+package com.lottopage.springboot.service;
+
+import com.lottopage.springboot.domain.User;
+import com.lottopage.springboot.repository.UserRepository;
+import lombok.Getter;
+import lombok.Setter;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.CrossOrigin;
+
+@CrossOrigin(origins = "http://localhost:3000")
+@Service
+public class UserService {
+    @Autowired
+    private UserRepository userRepository;
+
+    // 이메일 중복여부
+    public boolean checkEmail(String email) {
+        return userRepository.existsByEmail(email);
+    }
+
+    // 아이디 중복여부
+    public boolean checkUsername(String username) {
+        return userRepository.existsByUsername(username);
+    }
+
+    // 회원가입
+    public String signup(User user, String passwordCheck) {
+        if (checkEmail(user.getEmail())) return "EMAIL_EXISTS";
+        if (checkUsername(user.getUsername())) return "USERNAME_EXISTS";
+        if (user.getPassword().length() > 20) return "PW_EXCEEDS";
+        if (!user.getPassword().equals(passwordCheck)) return "PW_MISMATCH";
+        userRepository.save(user);
+        return "SUCCESS";
+    }
+
+    // 로그인
+    public User login(String username, String password) {
+        User user = userRepository.findByUsername(username);
+        if (user != null && user.getPassword().equals(password)) return user;
+        return null;
+    }
+    @Setter
+    @Getter
+    private UserRepository UserRepository;
+
+    // 비밀번호 암호화 사용하는 경우
+    // private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
+    // 사용자의 비밀번호가 맞는지 확인
+    public boolean verifyPassword(String username, String password) {
+        User user = userRepository.findByUsername(username);
+        if (user == null) return false;
+        // 평문 비교 (실서비스에서는 passwordEncoder.matches 사용)
+        return user.getPassword().equals(password);
+        // 암호화 사용한다면: return passwordEncoder.matches(password, user.getPassword());
+    }
+
+    // 비밀번호 변경
+    public boolean changePassword(String username, String newPassword) {
+        User user = userRepository.findByUsername(username);
+        if (user == null) return false;
+        user.setPassword(newPassword);
+        // 암호화 사용: user.setPassword(passwordEncoder.encode(newPassword));
+        userRepository.save(user);
+        return true;
+    }
+
+}
+

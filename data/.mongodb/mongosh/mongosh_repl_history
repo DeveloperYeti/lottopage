@@ -1,0 +1,6 @@
+db.user.insertOne({test: "test"})
+db.createCollection("log")
+db.createCollection("purchase")
+db.createCollection("ticket")
+db.createCollection("user")
+use weblotto

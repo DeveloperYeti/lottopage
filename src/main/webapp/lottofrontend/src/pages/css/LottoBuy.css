@@ -1,0 +1,37 @@
+.buy {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 32px 0;
+}
+.buy label {
+    margin-top: 14px;
+    margin-bottom: 10px;
+    font-size: 1em;
+}
+.buy input[type="number"] {
+    width: 52px;
+    font-size: 0.97em;
+    margin-left: 8px;
+    padding: 6px;
+    border-radius: 5px;
+    border: 1px solid #90caf9;
+}
+.buy-btn {
+    background: #f7b32b;
+    color: #fff;
+    padding: 0.7em 1.7em;
+    border: none;
+    border-radius: 6px;
+    font-size: 1.04em;
+    cursor: pointer;
+    margin-top: 8px;
+}
+.buy-btn:hover {
+    background: #b28704;
+}
+.buy-tips {
+    color: #666;
+    margin-top: 14px;
+    font-size: 0.95em;
+}
