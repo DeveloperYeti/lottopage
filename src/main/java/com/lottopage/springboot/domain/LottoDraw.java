@@ -1,31 +1,49 @@
 package com.lottopage.springboot.domain;
 
+import lombok.Getter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.web.bind.annotation.CrossOrigin;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
-@CrossOrigin(origins = "http://localhost:3000")
-@Document(collection = "lottoDraw")
+@Document(collection = "lottodraw")
 public class LottoDraw {
+    // Getter & Setter
+    @Getter
     @Id
     private String id;
-    private int drawNumber; // 회차번호
-    private List<Integer> numbers; // 당첨번호(중복X, 6개)
+    @Getter
+    private int drawNumber;                // 회차 번호
+    @Getter
+    private LocalDate date;                // 생성 날짜
+    @Getter
+    private List<Integer> winningNumbers;  // 당첨 번호 (6개)
+    private List<Ticket> tickets;          // 회차 내 모든 티켓
 
-    public LottoDraw() { }
-
-    public LottoDraw(int drawNumber, List<Integer> numbers) {
-        this.drawNumber = drawNumber;
-        this.numbers = numbers;
+    public LottoDraw() {
+        this.tickets = new ArrayList<>();
     }
 
-    // Getter/Setter
-    public String getId() { return id; }
+    public LottoDraw(int drawNumber, LocalDate date, List<Integer> winningNumbers, List<Ticket> tickets) {
+        this.drawNumber = drawNumber;
+        this.date = date;
+        this.winningNumbers = winningNumbers;
+        this.tickets = tickets != null ? tickets : new ArrayList<>();
+    }
+
     public void setId(String id) { this.id = id; }
-    public int getDrawNumber() { return drawNumber; }
+
     public void setDrawNumber(int drawNumber) { this.drawNumber = drawNumber; }
-    public List<Integer> getNumbers() { return numbers; }
-    public void setNumbers(List<Integer> numbers) { this.numbers = numbers; }
+
+    public void setDate(LocalDate date) { this.date = date; }
+
+    public void setWinningNumbers(List<Integer> winningNumbers) { this.winningNumbers = winningNumbers; }
+
+    public List<Ticket> getTickets() {
+        if (tickets == null) tickets = new ArrayList<>();
+        return tickets;
+    }
+    public void setTickets(List<Ticket> tickets) { this.tickets = tickets; }
 }
